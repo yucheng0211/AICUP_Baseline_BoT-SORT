@@ -1,36 +1,40 @@
 _BASE_: ../Base-bagtricks.yml
 
 INPUT:
-  SIZE_TRAIN: [256, 256]
-  SIZE_TEST: [256, 256]
+  SIZE_TRAIN: [128, 128]
+  SIZE_TEST: [128, 128]
 
 MODEL:
-  BACKBONE:
-    WITH_IBN: True
+  WEIGHTS: ("logs/AICUP_115/bagtricks_R50-ibn_v2/model_0058.pth")
+  
+  # WITH_IBN: true
+  
   HEADS:
     POOL_LAYER: GeneralizedMeanPooling
 
   LOSSES:
     TRI:
-      HARD_MINING: False
-      MARGIN: 0.0
+      HARD_MINING: false
+      MARGIN: 0.2
+    CE:
+      EPSILON: 0.1
 
 DATASETS:
   NAMES: ("AICUP",)
   TESTS: ("AICUP",)
-
+  COMBINEALL: false
 SOLVER:
   BIAS_LR_FACTOR: 1.
 
-  IMS_PER_BATCH: 256
-  MAX_EPOCH: 60
-  STEPS: [30, 50]
+  IMS_PER_BATCH: 128
+  MAX_EPOCH: 10
+  STEPS: [35, 35]
   WARMUP_ITERS: 2000
 
   CHECKPOINT_PERIOD: 1
 
 TEST:
-  EVAL_PERIOD: 60 # We didn't provide eval dataset
-  IMS_PER_BATCH: 256
+  EVAL_PERIOD: 10 # We didn't provide eval dataset
+  IMS_PER_BATCH: 128
 
-OUTPUT_DIR: logs/AICUP_115/bagtricks_R50-ibn
+OUTPUT_DIR: logs/AICUP_115/bagtricks_R50-ibn_v4

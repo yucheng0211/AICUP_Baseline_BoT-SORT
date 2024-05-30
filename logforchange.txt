@@ -1,0 +1,15 @@
+
+fast_reid -> bagtricks_R50-ibn.yml
+1. config batchsize =128
+2. max epoch 60->30
+3. HARD_MINING: false -> True
+
+yolo_train:
+
+AICUP.yaml fix :
+        # train and val data as 1) directory: path/images/, 2) file: path/images.txt, or 3) list: [path1/images/, path2/images/]
+        train: /mnt/d/yolo/train
+        val: /mnt/d/yolo/valid
+code fix: 
+--batch-size 16-> 2，修改後如下:
+python yolov7/train.py --device 0 --batch-size 2 --epochs 50 --data yolov7/data/AICUP.yaml --img 1280 1280 --cfg yolov7/cfg/training/yolov7-AICUP.yaml --weights 'pretrained/yolov7-e6e.pt' --name yolov7-AICUP --hyp data/hyp.scratch.custom.yaml
